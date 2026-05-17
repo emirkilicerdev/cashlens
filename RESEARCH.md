@@ -159,7 +159,7 @@ Mimari ne kadar iyi olursa olsun, kalitesiz veriyle beslenen bir model kalitesiz
 
 Üç aşamalı Ar-Ge sürecinde kontrastif öğrenmenin klasik CNN'den çok üstün olduğunu lokal donanımda doğruladık. Ancak sınırı veri seti büyüklüğüydü; bu durum kendi modelimizle aşılabilecek bir engel değildi.
 
-Microsoft Research, aynı kontrastif öğrenme felsefesini (SupCon benzeri mimari) **dünyanın dört bir yanından toplanan milyonlarca banknot fotoğrafıyla** uygulamış ve BankNote-Net'i üretmiştir. Bu encoder, kendi lokal modelimizin sahip olamayacağı bir genelleme kapasitesine sahiptir.
+Microsoft Research, aynı kontrastif öğrenme felsefesini (SupCon benzeri mimari) **24.816 yüksek kaliteli, profesyonelce etiketlenmiş banknot görüntüsüyle** uygulamış ve BankNote-Net'i üretmiştir. Sayı olarak bizim veri setimizden daha az görünse de asıl fark veri kalitesindedir: gerçek sahada, kontrollü koşullarda ve uzman gözetiminde toplanmış görüntüler, internetten derlenmiş binlerce tutarsız görüntüden çok daha güçlü bir model üretir.
 
 ### Mimari Entegrasyon
 
@@ -185,7 +185,7 @@ Bu yaklaşım modern yapay zeka mühendisliğinde **Transfer Learning** olarak a
 
 | Kriter | Kendi SupCon Modelimiz | Microsoft BankNote-Net |
 |---|---|---|
-| Eğitim verisi | ~32.000 fotoğraf (8 para birimi) | Milyonlarca fotoğraf (17 para birimi) |
+| Eğitim verisi | ~32.000 fotoğraf (8 para birimi) | 24.816 fotoğraf, profesyonel kalite (17 para birimi) |
 | Para birimi kapsamı | TRY, USD, EUR, INR, SAR, AUD, JPY, KRW | 17 para birimi (SAR, KRW hariç) |
 | Işık varyasyonu | Sınırlı | Küresel çeşitlilik |
 | Yıpranmış banknot | Zayıf | Güçlü |
