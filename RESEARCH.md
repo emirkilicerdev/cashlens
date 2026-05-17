@@ -60,7 +60,7 @@ Doğrulama veri setinde %90'ın üzerinde doğruluk elde edildi. Ancak gerçek k
 
 **Işık ve açı hassasiyeti:** Eğitim veri setindeki fotoğraflar belirli ışık koşullarında çekilmişti. Farklı bir aydınlatmada veya hafif eğik tutulduğunda güven puanı dramatik biçimde düştü.
 
-**Az veriyle sınırlı genelleme:** 13.000 fotoğraflık bir veri setiyle 224 sınıf öğretmek, her sınıfa ortalama yalnızca ~58 örnek düştüğü anlamına gelir. Bu, gerçek dünyanın sonsuz çeşitliliğini temsil etmek için yetersizdir.
+**Az veriyle sınırlı genelleme:** ~33.000 fotoğraflık veri setiyle 8 para birimi ve onlarca kupür öğretilmeye çalışıldı. Her sınıfa düşen örnek sayısı gerçek dünyanın sonsuz çeşitliliğini temsil etmek için yetersiz kaldı.
 
 ---
 
@@ -127,15 +127,29 @@ Batch (64 fotoğraf × 2 kopya = 128 görüntü)
 
 Canlı kamerada ek bir güvenilirlik katmanı olarak TTA uygulandı. Tek bir kamera karesi 3 farklı kontrast ve parlaklık ayarında işlenip tahminlerin ortalaması alındı. Bu, modelin tek bir "kötü an"dan hatalı sonuç üretmesini engelledi.
 
+### Veri Seti ve Kalite Sorunları
+
+Ar-Ge sürecinde internet üzerindeki çeşitli açık kaynaklardan ~33.000 görüntü derlendi. Ancak sayısal büyüklük yanıltıcıdır; asıl sorun **veri kalitesiydi.**
+
+**Tutarsız kaynak kalitesi:** Fotoğraflar Roboflow, Kaggle ve çeşitli akademik arşivlerden toplandı. Her kaynak farklı bir ekip tarafından farklı koşullarda oluşturulmuştu. Bir kısım tarayıcıyla düz zemin üzerinde çekilmiş temiz görüntülerden, bir kısım ise telefon kamerasıyla tutarsız ışık altında çekilmiş bulanık karelerden oluşuyordu. Model bu heterojen yapıyı bir standart olarak öğrenmekte zorlandı.
+
+**Gerçekçi olmayan çekim koşulları:** İnternetten toplanan banknot fotoğraflarının büyük çoğunluğu düz bir yüzey üzerine yatırılmış, sabit ışık altında, elle tutulmadan çekilmiş görüntülerdi. Oysa gerçek kullanım senaryosunda banknot titreyen bir elde tutulur, arka planda parmaklar ve avuç içi görünür, ışık açısı sürekli değişir. Model "laboratuvar banknotunu" tanımayı öğrendi, "gerçek hayat banknotunu" değil.
+
+**Etiket hataları:** Toplu indirilen veri setlerinde yanlış etiketlenmiş görüntüler mevcuttu. 50 INR olarak etiketlenmiş görseller arasında 100 INR bulunabiliyordu. Model bu hataları da "doğru bilgi" olarak öğrendi.
+
+**Sınıflar arası dengesizlik:** INR için ~14.000 görüntü varken EUR için yalnızca ~1.278 vardı. Bu dengesizlik modelin INR'yi "aşırı" öğrenirken EUR'yu yüzeysel öğrenmesine yol açtı.
+
+**Sonuç olarak:** Doğrulama setinde %99 doğruluk elde edilmesi yanıltıcıydı; zira doğrulama seti de aynı kalitesiz kaynaktan geliyordu. Gerçek kamerada performans çok daha düşük kaldı.
+
 ### Sonuçlar
 
-- **%99.0 doğrulama doğruluğu** (13.000+ görüntü üzerinde)
-- Arka plan gürültüsüne neredeyse tam bağışıklık
-- Triplet loss ve klasik CNN'e kıyasla çok daha kararlı canlı kamera performansı
+- **%99.0 doğrulama doğruluğu** — ancak bu oran kalitesiz veri seti üzerinde ölçüldüğünden gerçek dünya performansını yansıtmıyordu
+- Arka plan gürültüsüne kısmi bağışıklık kazanıldı
+- Triplet loss ve klasik CNN'e kıyasla daha kararlı canlı kamera performansı
 
 ### Neden Yine de Mükemmel Değildi?
 
-Yöntem teorik olarak güçlüdür; ancak veri seti hâlâ 13.000 fotoğrafla sınırlıydı. Gerçek dünya; yıpranmış banknotlar, aşırı parlak veya karanlık ortamlar, kırışmış yüzeyler ve farklı kamera kaliteleri gibi milyonlarca senaryo içerir. Bu çeşitliliği 13.000 fotoğrafla temsil etmek mümkün değildir. Bazı inatçı banknotlarda (özellikle birbirine benzeyen kupürler) kararsızlıklar devam etti.
+Mimari ne kadar iyi olursa olsun, kalitesiz veriyle beslenen bir model kalitesiz sonuç üretir. Yapay zekada buna **"garbage in, garbage out"** (çöp girer, çöp çıkar) ilkesi denir. Üç aşamanın tamamında bu duvarla karşılaşıldı ve aşılması kendi imkânlarımızla mümkün olmadı.
 
 ---
 
@@ -171,7 +185,8 @@ Bu yaklaşım modern yapay zeka mühendisliğinde **Transfer Learning** olarak a
 
 | Kriter | Kendi SupCon Modelimiz | Microsoft BankNote-Net |
 |---|---|---|
-| Eğitim verisi | ~13.000 fotoğraf | Milyonlarca fotoğraf |
+| Eğitim verisi | ~32.000 fotoğraf (8 para birimi) | Milyonlarca fotoğraf (17 para birimi) |
+| Para birimi kapsamı | TRY, USD, EUR, INR, SAR, AUD, JPY, KRW | 17 para birimi (SAR, KRW hariç) |
 | Işık varyasyonu | Sınırlı | Küresel çeşitlilik |
 | Yıpranmış banknot | Zayıf | Güçlü |
 | Model boyutu | Benzer | 16 MB (optimize) |
