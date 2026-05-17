@@ -71,13 +71,12 @@ class CurrencyRecognizer(context: Context) : AutoCloseable {
         val bestIdx = probs.indices.maxByOrNull { probs[it] } ?: 0
         val bestLabel = labels[bestIdx]          // e.g. "TRY_100_1"
         val parts = bestLabel.split("_")
-        val currency = parts[0]                  // TRY
-        val face = parts.last()                  // 1 or 2
-        val denom = parts.drop(1).dropLast(1).joinToString("_")  // 100
+        val currency = parts[0]   // TRY, GBP, INR...
+        val face = parts.last()   // her zaman son parça (1=ön, 2=arka)
 
         return RecognitionResult(
             currency = currency,
-            denomination = parts[1],          // her zaman ikinci parça
+            denomination = parts[1],  // her zaman ikinci parça (3 veya 4 parçalı formatlarda da doğru)
             face = if (face == "1") "Ön" else "Arka",
             confidence = probs[bestIdx],
             label = bestLabel
