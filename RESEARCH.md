@@ -191,7 +191,7 @@ Bu yaklaşım modern yapay zeka mühendisliğinde **Transfer Learning** olarak a
 | Yıpranmış banknot | Zayıf | Güçlü |
 | Model boyutu | Benzer | 16 MB (optimize) |
 | Pil tüketimi | Yüksek | Optimize |
-| Geliştirme süresi | Haftalarca GPU eğitimi | Transfer + ince ayar |
+| Geliştirme süresi | ~30-45 dk (RTX 3080 Ti, encoder dondurulmuş) | Transfer + ince ayar |
 
 ---
 
