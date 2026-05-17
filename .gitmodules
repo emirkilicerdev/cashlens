@@ -1,0 +1,3 @@
+[submodule "banknote-net-main"]
+	path = banknote-net-main
+	url = https://github.com/microsoft/banknote-net.git
