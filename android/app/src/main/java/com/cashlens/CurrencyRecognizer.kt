@@ -77,7 +77,7 @@ class CurrencyRecognizer(context: Context) : AutoCloseable {
 
         return RecognitionResult(
             currency = currency,
-            denomination = denom,
+            denomination = parts[1],          // her zaman ikinci parça
             face = if (face == "1") "Ön" else "Arka",
             confidence = probs[bestIdx],
             label = bestLabel
