@@ -1,0 +1,32 @@
+# Android
+*.iml
+.gradle/
+/local.properties
+/.idea/
+.DS_Store
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.aab
+
+# Android Studio
+**/.idea/
+**/build/
+**/*.iml
+
+# Python / model eğitim dosyaları
+__pycache__/
+*.pyc
+*.pyo
+*.h5
+*.tflite
+banknote-net-main/data/
+banknote-net-main/venv/
+banknote-net-main/.venv/
+
+# Keystore (güvenlik)
+*.jks
+*.keystore

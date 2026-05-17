@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <!-- Kamera önizleme -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Üst bar -->
+    <LinearLayout
+        android:id="@+id/topBar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FFFFFFFF"
+        android:paddingHorizontal="12dp"
+        android:paddingVertical="8dp"
+        android:gravity="center_vertical"
+        android:elevation="4dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Sol: ses + flaş = 80dp -->
+        <ImageButton
+            android:id="@+id/ttsButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="12dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_volume"
+            android:contentDescription="Ses" />
+
+        <ImageButton
+            android:id="@+id/flashButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="10dp"
+            android:alpha="0.35"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_flash"
+            android:contentDescription="Flaş" />
+
+        <!-- Orta: logo -->
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:src="@drawable/logo"
+            android:scaleType="centerInside"
+            android:contentDescription="CashLens" />
+
+        <!-- Sağ: dil + döndür = 80dp -->
+        <TextView
+            android:id="@+id/langButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:text="TR"
+            android:textColor="#1B873F"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true" />
+
+        <ImageButton
+            android:id="@+id/flipButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:padding="8dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_flip_camera"
+            android:contentDescription="Kamerayı döndür" />
+
+    </LinearLayout>
+
+    <!-- Alt kart -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottomCard"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="12dp">
+
+            <!-- Para bilgisi satırı -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/currencyFlag"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="#F0F0F0"
+                    android:gravity="center"
+                    android:text="?"
+                    android:textSize="20sp"
+                    android:textColor="#1B873F"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_marginStart="10dp">
+
+                    <TextView
+                        android:id="@+id/currencyName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hint_point_camera"
+                        android:textColor="#111111"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/faceText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#888888"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/denominationText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#111111"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Güven çubuğu -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="8dp">
+
+                <TextView
+                    android:id="@+id/confidenceLabel"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="#AAAAAA"
+                    android:textSize="11sp" />
+
+                <ProgressBar
+                    android:id="@+id/confidenceBar"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="140dp"
+                    android:layout_height="4dp"
+                    android:max="100"
+                    android:progress="0"
+                    android:progressTint="#1B873F"
+                    android:progressBackgroundTint="#E0E0E0" />
+
+            </LinearLayout>
+
+            <!-- Ayraç -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#F0F0F0"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Çevrim başlık + toggle + chip -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_conversion"
+                    android:textColor="#AAAAAA"
+                    android:textSize="11sp" />
+
+                <!-- Aç/kapat oku -->
+                <TextView
+                    android:id="@+id/conversionToggle"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:gravity="center"
+                    android:text="▾"
+                    android:textSize="13sp"
+                    android:textColor="#AAAAAA"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_marginEnd="4dp" />
+
+                <HorizontalScrollView
+                    android:id="@+id/chipScrollView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/currencyChipGroup"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:singleSelection="true"
+                        app:chipSpacingHorizontal="4dp">
+
+                        <com.google.android.material.chip.Chip android:id="@+id/chipTRY" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="TRY" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipUSD" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="USD" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipEUR" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="EUR" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipGBP" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="GBP" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipJPY" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="JPY" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipINR" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="INR" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipAUD" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="AUD" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipCAD" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CAD" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipBRL" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="BRL" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipMXN" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MXN" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipSGD" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="SGD" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipNZD" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="NZD" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipMYR" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="MYR" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipIDR" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="IDR" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipPHP" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PHP" android:textSize="11sp" app:checkedIconVisible="false"/>
+                        <com.google.android.material.chip.Chip android:id="@+id/chipCHF" style="@style/Widget.MaterialComponents.Chip.Choice" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="CHF" android:textSize="11sp" app:checkedIconVisible="false"/>
+
+                    </com.google.android.material.chip.ChipGroup>
+
+                </HorizontalScrollView>
+
+            </LinearLayout>
+
+            <!-- Çevrim sonucu + kur (toggle ile açılıp kapanır) -->
+            <LinearLayout
+                android:id="@+id/conversionResultSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:id="@+id/conversionRate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textColor="#AAAAAA"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/conversionResult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="#1B873F"
+                    android:textSize="28sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

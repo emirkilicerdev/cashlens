@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.CashLens" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">#1B873F</item>
+        <item name="colorPrimaryVariant">#005227</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="android:windowBackground">@android:color/white</item>
+        <item name="android:statusBarColor">#FFFFFF</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <!-- Splash teması: uygulama açılırken logoyu göster -->
+    <style name="Theme.CashLens.Splash" parent="Theme.CashLens">
+        <item name="android:windowBackground">@drawable/splash_background</item>
+    </style>
+</resources>

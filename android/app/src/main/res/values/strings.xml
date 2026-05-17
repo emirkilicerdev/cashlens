@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CashLens</string>
+    <string name="hint_point_camera">Point camera at a banknote…</string>
+    <string name="label_conversion">Convert</string>
+    <string name="label_confidence">Confidence</string>
+    <string name="label_face_front">Front</string>
+    <string name="label_face_back">Back</string>
+    <string name="label_already_same">Same currency</string>
+    <string name="label_offline">Offline — last saved rate</string>
+    <string name="tts_main">%1$s %2$s.</string>
+    <string name="tts_conversion">That\'s approximately %1$s %2$s.</string>
+</resources>

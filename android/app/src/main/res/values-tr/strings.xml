@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CashLens</string>
+    <string name="hint_point_camera">Kameraya para tutun…</string>
+    <string name="label_conversion">Çevrim</string>
+    <string name="label_confidence">Güven</string>
+    <string name="label_face_front">Ön yüz</string>
+    <string name="label_face_back">Arka yüz</string>
+    <string name="label_already_same">Aynı para birimi</string>
+    <string name="label_offline">Offline — son kaydedilen kur</string>
+    <string name="tts_main">%1$s %2$s.</string>
+    <string name="tts_conversion">%1$s karşılığı yaklaşık %2$s.</string>
+</resources>
