@@ -181,10 +181,3 @@ Bu proje [MIT Lisansı](LICENSE) ile lisanslanmıştır.
 
 Model eğitiminde kullanılan BankNote-Net veri seti Microsoft'a aittir:  
 [github.com/microsoft/banknote-net](https://github.com/microsoft/banknote-net)
-
----
-
-## 👤 Geliştirici
-
-**Emir Kılıç**  
-GitHub: [@emirkilicerdev](https://github.com/emirkilicerdev)
