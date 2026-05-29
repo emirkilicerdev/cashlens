@@ -10,4 +10,8 @@
     <string name="label_offline">Offline — last saved rate</string>
     <string name="tts_main">%1$s %2$s.</string>
     <string name="tts_conversion">That\'s approximately %1$s %2$s.</string>
+    <string name="warning_uncertain">Uncertain banknote</string>
+    <string name="warning_no_money">No banknote detected</string>
+    <string name="tts_warning_uncertain">Could not verify banknote, please check again.</string>
+    <string name="tts_warning_no_money">No banknote detected, please show one.</string>
 </resources>

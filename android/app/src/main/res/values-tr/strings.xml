@@ -10,4 +10,8 @@
     <string name="label_offline">Offline — son kaydedilen kur</string>
     <string name="tts_main">%1$s %2$s.</string>
     <string name="tts_conversion">%1$s karşılığı yaklaşık %2$s.</string>
+    <string name="warning_uncertain">Şüpheli banknot</string>
+    <string name="warning_no_money">Para tespit edilemedi</string>
+    <string name="tts_warning_uncertain">Bu banknot doğrulanamadı, lütfen tekrar kontrol edin.</string>
+    <string name="tts_warning_no_money">Para tespit edilemedi, lütfen bir banknot tutun.</string>
 </resources>

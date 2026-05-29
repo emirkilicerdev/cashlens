@@ -63,6 +63,12 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private var exchangeRates: Map<String, Double> = emptyMap()
     private var lastInferenceMs = 0L
     private val CONFIDENCE_THRESHOLD = 0.82f
+    private val UNCERTAIN_THRESHOLD = 0.55f   // bu ile 0.82 arası şüpheli
+    private val UNCERTAIN_WARN_COUNT = 3      // 3 kare şüpheli → uyar
+    private val NO_MONEY_WARN_COUNT = 5       // 5 kare çok düşük → "para değil"
+    private var pendingUncertainCount = 0
+    private var pendingNoMoneyCount = 0
+    private var lastWarningState = ""         // "uncertain" / "no_money" / "" (yeniden seslendirmeyi engeller)
 
     private val prefs by lazy { getSharedPreferences("cashlens_ui", MODE_PRIVATE) }
 
@@ -263,12 +269,19 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             provider.unbindAll()
             camera = try {
                 provider.bindToLifecycle(this, preferred, preview, analyzer)
-            } catch (e: IllegalArgumentException) {
-                Log.w("CashLens", "Preferred camera unavailable, trying fallback")
+            } catch (e: Exception) {
+                Log.w("CashLens", "Preferred camera unavailable (${e.message}), trying fallback")
                 try {
                     provider.bindToLifecycle(this, fallback, preview, analyzer)
-                } catch (e2: IllegalArgumentException) {
+                } catch (e2: Exception) {
                     Log.e("CashLens", "No camera available: ${e2.message}")
+                    runOnUiThread {
+                        android.widget.Toast.makeText(
+                            this,
+                            "Kamera başlatılamadı. Lütfen gerçek cihazda deneyin.",
+                            android.widget.Toast.LENGTH_LONG
+                        ).show()
+                    }
                     null
                 }
             }
@@ -282,12 +295,36 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         try {
             val bitmap = imageProxy.toBitmap()
             val result = recognizer.recognize(bitmap)
-            if (result.confidence >= CONFIDENCE_THRESHOLD) {
-                runOnUiThread {
-                    lastResult = result
-                    updateMainUI(result)
-                    updateConversionUI(result)
-                    speakResult(result)
+            runOnUiThread {
+                when {
+                    result.confidence >= CONFIDENCE_THRESHOLD -> {
+                        // Yüksek güven — normal tanıma
+                        pendingUncertainCount = 0
+                        pendingNoMoneyCount = 0
+                        lastWarningState = ""
+                        lastResult = result
+                        updateMainUI(result)
+                        updateConversionUI(result)
+                        speakResult(result)
+                    }
+                    result.confidence >= UNCERTAIN_THRESHOLD -> {
+                        // Orta güven — şüpheli banknot
+                        pendingNoMoneyCount = 0
+                        pendingUncertainCount++
+                        if (pendingUncertainCount >= UNCERTAIN_WARN_COUNT) {
+                            showUncertaintyWarning()
+                            pendingUncertainCount = 0
+                        }
+                    }
+                    else -> {
+                        // Düşük güven — büyük ihtimal para değil
+                        pendingUncertainCount = 0
+                        pendingNoMoneyCount++
+                        if (pendingNoMoneyCount >= NO_MONEY_WARN_COUNT) {
+                            showNoMoneyWarning()
+                            pendingNoMoneyCount = 0
+                        }
+                    }
                 }
             }
         } catch (e: Exception) {
@@ -297,7 +334,58 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
     }
 
+    private fun showUncertaintyWarning() {
+        if (lastWarningState == "uncertain") return  // aynı uyarı tekrar gösterilmesin
+        lastWarningState = "uncertain"
+        lastResult = null
+
+        val orange = 0xFFFF9800.toInt()
+        currencyFlag.text = "!"
+        currencyFlag.setTextColor(orange)
+        currencyName.text = getString(R.string.warning_uncertain)
+        currencyName.setTextColor(orange)
+        faceText.text = ""
+        denominationText.text = "?"
+        denominationText.setTextColor(orange)
+        confidenceLabel.text = ""
+        confidenceBar.progress = 0
+        conversionResult.text = "—"
+        conversionRate.text = ""
+
+        if (ttsEnabled && ttsReady && tts?.isSpeaking != true) {
+            tts?.speak(getString(R.string.tts_warning_uncertain), TextToSpeech.QUEUE_FLUSH, null, "cashlens-warn")
+        }
+    }
+
+    private fun showNoMoneyWarning() {
+        if (lastWarningState == "no_money") return
+        lastWarningState = "no_money"
+        lastResult = null
+
+        val gray = 0xFF888888.toInt()
+        currencyFlag.text = "?"
+        currencyFlag.setTextColor(gray)
+        currencyName.text = getString(R.string.warning_no_money)
+        currencyName.setTextColor(gray)
+        faceText.text = ""
+        denominationText.text = ""
+        denominationText.setTextColor(gray)
+        confidenceLabel.text = ""
+        confidenceBar.progress = 0
+        conversionResult.text = "—"
+        conversionRate.text = ""
+
+        if (ttsEnabled && ttsReady && tts?.isSpeaking != true) {
+            tts?.speak(getString(R.string.tts_warning_no_money), TextToSpeech.QUEUE_FLUSH, null, "cashlens-warn")
+        }
+    }
+
     private fun updateMainUI(result: RecognitionResult) {
+        // Uyarı durumundan döndüysek renkleri sıfırla
+        currencyFlag.setTextColor(0xFF1B873F.toInt())
+        currencyName.setTextColor(0xFF111111.toInt())
+        denominationText.setTextColor(0xFF111111.toInt())
+
         currencyFlag.text     = result.currency
         currencyName.text     = "${currencyFullName(result.currency)} (${result.currency})"
         faceText.text         = if (result.face == "Ön") getString(R.string.label_face_front)
