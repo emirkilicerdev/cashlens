@@ -199,38 +199,50 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="8dp" />
 
-            <!-- Çevrim başlık + toggle + chip -->
+            <!-- Çevrim başlık + toggle (her zaman görünür, tüm satır tıklanabilir) -->
             <LinearLayout
+                android:id="@+id/conversionHeader"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackground"
+                android:paddingVertical="4dp">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/label_conversion"
                     android:textColor="#AAAAAA"
                     android:textSize="11sp" />
 
-                <!-- Aç/kapat oku -->
+                <!-- Aç/kapat oku (sağa yaslı, görsel; tüm satır tıklanabilir) -->
                 <TextView
                     android:id="@+id/conversionToggle"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:gravity="center"
                     android:text="▾"
-                    android:textSize="13sp"
-                    android:textColor="#AAAAAA"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:layout_marginEnd="4dp" />
+                    android:textSize="14sp"
+                    android:textColor="#AAAAAA" />
+
+            </LinearLayout>
+
+            <!-- Çevrim gövdesi (toggle ile açılıp kapanır) -->
+            <LinearLayout
+                android:id="@+id/conversionCollapsibleSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <HorizontalScrollView
                     android:id="@+id/chipScrollView"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:layout_marginTop="4dp"
                     android:scrollbars="none">
 
                     <com.google.android.material.chip.ChipGroup
@@ -261,34 +273,34 @@
 
                 </HorizontalScrollView>
 
-            </LinearLayout>
-
-            <!-- Çevrim sonucu + kur (toggle ile açılıp kapanır) -->
-            <LinearLayout
-                android:id="@+id/conversionResultSection"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="6dp">
-
-                <TextView
-                    android:id="@+id/conversionRate"
-                    android:layout_width="0dp"
+                <!-- Çevrim sonucu + kur -->
+                <LinearLayout
+                    android:id="@+id/conversionResultSection"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textColor="#AAAAAA"
-                    android:textSize="11sp" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="6dp">
 
-                <TextView
-                    android:id="@+id/conversionResult"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="#1B873F"
-                    android:textSize="28sp"
-                    android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/conversionRate"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:textColor="#AAAAAA"
+                        android:textSize="11sp" />
+
+                    <TextView
+                        android:id="@+id/conversionResult"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="#1B873F"
+                        android:textSize="28sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

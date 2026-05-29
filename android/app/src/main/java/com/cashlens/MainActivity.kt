@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private lateinit var conversionResult: TextView
     private lateinit var conversionRate: TextView
     private lateinit var conversionResultSection: LinearLayout
+    private lateinit var conversionCollapsibleSection: LinearLayout
     private lateinit var conversionToggle: TextView
     private lateinit var chipGroup: ChipGroup
 
@@ -139,6 +140,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         conversionResult      = findViewById(R.id.conversionResult)
         conversionRate        = findViewById(R.id.conversionRate)
         conversionResultSection = findViewById(R.id.conversionResultSection)
+        conversionCollapsibleSection = findViewById(R.id.conversionCollapsibleSection)
         conversionToggle      = findViewById(R.id.conversionToggle)
         chipGroup             = findViewById(R.id.currencyChipGroup)
 
@@ -150,7 +152,7 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     }
 
     private fun applyConversionVisibility() {
-        conversionResultSection.visibility = if (isConversionVisible) View.VISIBLE else View.GONE
+        conversionCollapsibleSection.visibility = if (isConversionVisible) View.VISIBLE else View.GONE
         conversionToggle.text = if (isConversionVisible) "▾" else "▸"
     }
 
@@ -182,7 +184,8 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             recreate()
         }
 
-        conversionToggle.setOnClickListener {
+        // Tüm "Çevrim ... ▾" satırı tıklanabilir
+        findViewById<View>(R.id.conversionHeader).setOnClickListener {
             isConversionVisible = !isConversionVisible
             prefs.edit().putBoolean("conversion_visible", isConversionVisible).apply()
             applyConversionVisibility()
@@ -457,7 +460,8 @@ class MainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
         return buildString {
             append("${result.denomination} $sourceName. ")
-            if (converted != null && result.currency != selectedTargetCurrency) {
+            // Çevrim gizliyse sadece kaynak para birimini söyle, çevrim cümlesini ekleme
+            if (isConversionVisible && converted != null && result.currency != selectedTargetCurrency) {
                 val formattedAmount = formatAmount(converted, selectedTargetCurrency)
                 if (isTurkish)
                     append("$targetName karşılığı yaklaşık $formattedAmount.")
